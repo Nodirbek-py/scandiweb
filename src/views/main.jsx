@@ -26,7 +26,19 @@ class Main extends Component {
   handleToggleCart = () => {
     this.props.dispatch(uiActions.toggleCart());
   };
-
+  handleCurrency = (currency) => {
+    this.props.dispatch(uiActions.changeCurrency(currency));
+    console.log(currency);
+  };
+  handleIncrement = (index) => {
+    this.props.dispatch(uiActions.increment(index));
+    this.props.dispatch(uiActions.total());
+  };
+  handleDecrement = (index) => {
+    this.props.dispatch(uiActions.decrement(index));
+    this.props.dispatch(uiActions.total());
+  };
+  componentDidMount() {}
   render() {
     return (
       <Container>
@@ -35,23 +47,18 @@ class Main extends Component {
             <NavLink
               className="nav-link"
               activeClassName="nav-link-active"
-              to="/women"
+              exact
+              to="/products/tech"
             >
-              WOMEN
+              TECH
             </NavLink>
             <NavLink
               className="nav-link"
               activeClassName="nav-link-active"
-              to="/men"
+              exact
+              to="/products/clothes"
             >
-              MEN
-            </NavLink>
-            <NavLink
-              className="nav-link"
-              activeClassName="nav-link-active"
-              to="/kids"
-            >
-              KIDS
+              CLOTHES
             </NavLink>
           </NavSides>
           <NavSides>
@@ -78,40 +85,71 @@ class Main extends Component {
               <Text margin="0 0 25px 0" weight="600">
                 My bag
               </Text>
-              <CartItem>
-                <Flex
-                  direction="column"
-                  justify="space-between"
-                  align="flex-start"
-                >
-                  <div>
-                    <Text margin="6px 0" weight="300">
-                      Tovar
-                    </Text>
-                    <Text margin="6px 0" weight="600">
-                      Price
-                    </Text>
-                  </div>
-                  <div>
-                    <Button margin="0 8px 0 0">S</Button>
-                    <Button margin="0 8px" disabled>
-                      M
-                    </Button>
-                  </div>
-                </Flex>
-                <CardSides>
-                  <Button>+</Button>
-                  <Text weight="500">1</Text>
-                  <Button>-</Button>
-                </CardSides>
-                <CardSides>
-                  <img
-                    style={{ width: "100%", height: "100%" }}
-                    src="https://picsum.photos/150"
-                    alt=""
-                  />
-                </CardSides>
-              </CartItem>
+              {this.props.ui.cart.length > 0 ? (
+                this.props.ui.cart.map((item, index) => {
+                  return (
+                    <CartItem>
+                      <Flex
+                        direction="column"
+                        justify="space-between"
+                        align="flex-start"
+                      >
+                        <div>
+                          <Text margin="6px 0" weight="300">
+                            {item.name}
+                          </Text>
+                          <Text margin="6px 0" weight="600">
+                            {
+                              item.prices.filter(
+                                (price) =>
+                                  price.currency === this.props.ui.currency
+                              )[0].amount
+                            }{" "}
+                            {this.props.ui.currency}
+                          </Text>
+                        </div>
+                        <div>
+                          {item.category === "clothes" ? (
+                            <>
+                              <Button margin="0 8px 0 0">S</Button>
+                              <Button margin="0 8px" disabled>
+                                M
+                              </Button>
+                            </>
+                          ) : null}
+                        </div>
+                      </Flex>
+                      <CardSides>
+                        <Button
+                          onClick={() => {
+                            this.handleIncrement(index);
+                          }}
+                        >
+                          +
+                        </Button>
+                        <Text weight="500">{item.count}</Text>
+                        <Button onClick={() => this.handleDecrement(index)}>
+                          -
+                        </Button>
+                      </CardSides>
+                      <CardSides>
+                        <img
+                          style={{ width: "100%" }}
+                          src={item.gallery[0]}
+                          alt=""
+                        />
+                      </CardSides>
+                    </CartItem>
+                  );
+                })
+              ) : (
+                <Text size="24" margin="0.5rem 0" align="center">
+                  No items yet
+                </Text>
+              )}
+              <Text size="24" margin="0.5rem 0" align="left">
+                Total: {this.props.ui.total}
+              </Text>
               <Flex align="center" justify="space-between">
                 <Button>View Bag</Button>
                 <Button>Checkout</Button>
@@ -122,20 +160,52 @@ class Main extends Component {
         ) : null}
         {this.props.ui.currencyShown === true ? (
           <Currency>
-            <Text margin="10px 0" weight="400">
+            <Text
+              onClick={this.handleCurrency.bind(this, "USD")}
+              hover
+              margin="10px 0"
+              weight="400"
+            >
               $ USD
             </Text>
-            <Text margin="10px 0" weight="400">
-              $ EURO
+            <Text
+              onClick={this.handleCurrency.bind(this, "RUB")}
+              hover
+              margin="10px 0"
+              weight="400"
+            >
+              ₽ RUB
             </Text>
-            <Text margin="10px 0" weight="400">
-              $ POUND
+            <Text
+              onClick={this.handleCurrency.bind(this, "GBP")}
+              hover
+              margin="10px 0"
+              weight="400"
+            >
+              £ GBP
+            </Text>
+            <Text
+              onClick={this.handleCurrency.bind(this, "AUD")}
+              hover
+              margin="10px 0"
+              weight="400"
+            >
+              $ AUD
+            </Text>
+            <Text
+              onClick={this.handleCurrency.bind(this, "JPY")}
+              hover
+              margin="10px 0"
+              weight="400"
+            >
+              ¥ JPY
             </Text>
           </Currency>
         ) : null}
         <Switch>
-          <Route exact path="/products" component={ProductList} />
-          <Route exact path="/detail" component={ProductDetail} />
+          <Route exact path="/products/:category" component={ProductList} />
+          <Route exact path="/detail/:id" component={ProductDetail} />
+            
           <Route exact path="/cart" component={CartPage} />
         </Switch>
       </Container>

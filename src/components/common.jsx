@@ -45,10 +45,15 @@ const Text = styled.p`
   font-size: ${(props) => props.size}px;
   font-weight: ${(props) => props.weight};
   margin: ${(props) => props.margin};
+  text-transform: ${(props) => props.transform};
+  cursor: ${(props) => (props.hover ? "pointer" : "auto")};
+  text-align: ${(props) => props.align};
 `;
 const Cart = styled.div`
   width: 325px;
   position: absolute;
+  max-height: 600px;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   padding: 0.5rem 1rem;
@@ -78,9 +83,9 @@ const CardSides = styled.div`
 const Button = styled.button`
   outline: none;
   padding: ${(props) => props.padding || "0.5rem"};
-  color: #1d1f22;
+  color: ${(props) => (props.background ? props.background : "#1d1f22")};
   margin: ${(props) => props.margin};
-  background: none;
+  background: ${(props) => (props.background ? props.background : "none")};
   min-width: 32px;
   min-height: 32px;
   border: 1px solid #1d1f22;

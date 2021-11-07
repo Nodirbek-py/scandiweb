@@ -4,6 +4,10 @@ const uiSlice = createSlice({
   initialState: {
     cartShown: false,
     currencyShown: false,
+    currency: "USD",
+    cart: [],
+    total: 2,
+    id: null,
   },
   reducers: {
     toggleCart: (state) => {
@@ -13,6 +17,37 @@ const uiSlice = createSlice({
     toggleCurrency: (state) => {
       state.currencyShown = !state.currencyShown;
       state.cartShown = false;
+    },
+    changeCurrency: (state, action) => {
+      state.currency = action.payload;
+    },
+    addToCart: (state, action) => {
+      if (state.cart.some((item) => item.id === action.payload.id)) {
+        const index = state.cart.findIndex(
+          (item) => item.id === action.payload.id
+        );
+        state.cart[index].count += 1;
+      } else {
+        state.cart.push(action.payload);
+      }
+    },
+    increment: (state, action) => {
+      state.cart[action.payload].count++;
+      state.cart[action.payload].price += state.cart[action.payload].price;
+    },
+    decrement: (state, action) => {
+      if (state.cart[action.payload].count !== 0) {
+        state.cart[action.payload].count--;
+        state.cart[action.payload].price -= state.cart[action.payload].price;
+      }
+    },
+    total: (state) => {
+      state.total = state.cart
+        .reduce((accumulator, current) => accumulator + current.price, 0)
+        .toFixed(2);
+    },
+    select: (state, action) => {
+      state.id = action.payload;
     },
   },
 });
