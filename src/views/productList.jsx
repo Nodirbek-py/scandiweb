@@ -44,6 +44,9 @@ class ProductList extends Component {
                         onClick={this.addToCart.bind(this, {
                           ...product,
                           count: 1,
+                          originalPrice: product.prices.filter(
+                            (price) => price.currency === this.props.ui.currency
+                          )[0].amount,
                           price: product.prices.filter(
                             (price) => price.currency === this.props.ui.currency
                           )[0].amount,

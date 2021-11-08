@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route, Switch, NavLink } from "react-router-dom";
+import { Route, Switch, NavLink, Link } from "react-router-dom";
 import { uiActions } from "../store/uiSlice";
 import {
   Button,
@@ -28,7 +28,6 @@ class Main extends Component {
   };
   handleCurrency = (currency) => {
     this.props.dispatch(uiActions.changeCurrency(currency));
-    console.log(currency);
   };
   handleIncrement = (index) => {
     this.props.dispatch(uiActions.increment(index));
@@ -151,8 +150,12 @@ class Main extends Component {
                 Total: {this.props.ui.total}
               </Text>
               <Flex align="center" justify="space-between">
-                <Button>View Bag</Button>
-                <Button>Checkout</Button>
+                <Link to="/cart">
+                  <Button>View Bag</Button>
+                </Link>
+                <Link to="/cart">
+                  <Button>Checkout</Button>
+                </Link>
               </Flex>
             </Cart>
             <Overlay onClick={this.handleToggleCart} />
@@ -205,7 +208,6 @@ class Main extends Component {
         <Switch>
           <Route exact path="/products/:category" component={ProductList} />
           <Route exact path="/detail/:id" component={ProductDetail} />
-            
           <Route exact path="/cart" component={CartPage} />
         </Switch>
       </Container>

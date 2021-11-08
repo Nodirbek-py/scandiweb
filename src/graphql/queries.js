@@ -6,6 +6,7 @@ const getProducts = gql`
       products {
         name
         id
+        description
         category
         inStock
         gallery
@@ -33,6 +34,8 @@ const getProduct = gql`
       gallery
       description
       brand
+      inStock
+      id
       prices {
         amount
         currency

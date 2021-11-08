@@ -33,12 +33,14 @@ const uiSlice = createSlice({
     },
     increment: (state, action) => {
       state.cart[action.payload].count++;
-      state.cart[action.payload].price += state.cart[action.payload].price;
+      state.cart[action.payload].price +=
+        state.cart[action.payload].originalPrice;
     },
     decrement: (state, action) => {
       if (state.cart[action.payload].count !== 0) {
         state.cart[action.payload].count--;
-        state.cart[action.payload].price -= state.cart[action.payload].price;
+        state.cart[action.payload].price -=
+          state.cart[action.payload].originalPrice;
       }
     },
     total: (state) => {
