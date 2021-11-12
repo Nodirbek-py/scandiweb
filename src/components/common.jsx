@@ -23,9 +23,10 @@ const Overlay = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: ${(props) =>
+    props.black ? "rgba(0, 0, 0, 0.2)" : "rgba(255, 255, 255, 0)"};
   transition: background-color 0.5s;
-  z-index: 2;
+  z-index: 1;
   cursor: pointer;
 `;
 const NavSides = styled.div`
@@ -37,6 +38,7 @@ const Container = styled.div`
   position: relative;
   max-width: 1280px;
   margin: 0 auto;
+  z-index: 0;
 `;
 const Page = styled.div`
   margin: 50px 0;
@@ -64,7 +66,12 @@ const Cart = styled.div`
 `;
 const Currency = styled(Cart)`
   width: 120px;
+
   box-shadow: 0px 4px 35px #a8acb030;
+  p:hover {
+    position: relative;
+    color: #999;
+  }
 `;
 const CartItem = styled.div`
   height: 120px;

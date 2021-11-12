@@ -23,7 +23,7 @@ class Cart extends Component {
                     {item.name}
                   </Text>
                   <Text margin="0.5rem 0" size="24" weight="700">
-                    {item.price} {this.props.ui.currency}
+                    {item.price.toFixed(2)} {this.props.ui.currencySign}
                   </Text>
                   <Flex>
                     {item.attributes.size !== "" ? (

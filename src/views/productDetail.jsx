@@ -194,7 +194,7 @@ class ProductDetail extends Component {
                       (price) => price.currency === this.props.ui.currency
                     )[0].amount
                   }{" "}
-                  {this.props.ui.currency}
+                  {this.props.ui.currencySign}
                 </Text>
               </Flex>
               <Flex direction="column">

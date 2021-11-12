@@ -37,10 +37,10 @@ const CardImg = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
+  color: #8d8f9a;
   background: ${(props) =>
       props.inStock === "false"
-        ? "linear-gradient(0deg, #00000050, #00000050),"
+        ? "linear-gradient(0deg, #00000015, #00000010),"
         : null}
     url(${(props) => props.src});
   background-size: 100% auto;

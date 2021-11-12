@@ -53,3 +53,7 @@ a {
   margin: 0 1rem;
   cursor: pointer;
 }
+.currency-sign {
+  position: absolute;
+  z-index: 3;
+}

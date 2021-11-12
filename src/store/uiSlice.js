@@ -5,8 +5,9 @@ const uiSlice = createSlice({
     cartShown: false,
     currencyShown: false,
     currency: "USD",
+    currencySign: "$",
     cart: [],
-    total: 2,
+    total: 0,
     id: null,
   },
   reducers: {
@@ -18,8 +19,12 @@ const uiSlice = createSlice({
       state.currencyShown = !state.currencyShown;
       state.cartShown = false;
     },
+    hideCurrency: (state) => {
+      state.currencyShown = false;
+    },
     changeCurrency: (state, action) => {
-      state.currency = action.payload;
+      state.currency = action.payload.currency;
+      state.currencySign = action.payload.currencySign;
     },
     addToCart: (state, action) => {
       if (state.cart.some((item) => item.id === action.payload.id)) {

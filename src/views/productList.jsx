@@ -31,29 +31,32 @@ class ProductList extends Component {
               )[0]
               .products.map((product) => {
                 return (
-                  <Card key={product.id}>
-                    <CardImg
-                      src={product.gallery[0]}
-                      inStock={String(product.inStock)}
-                    >
-                      {product.inStock ? null : <h1>Out of stock</h1>}
-                    </CardImg>
-                    {product.inStock ? (
-                      <AddToCart
-                        src={add2cart}
-                        onClick={this.addToCart.bind(this, {
-                          ...product,
-                          count: 1,
-                          originalPrice: product.prices.filter(
-                            (price) => price.currency === this.props.ui.currency
-                          )[0].amount,
-                          price: product.prices.filter(
-                            (price) => price.currency === this.props.ui.currency
-                          )[0].amount,
-                        })}
-                      />
-                    ) : null}
-                    <Link key={product.id} to={"/detail/" + product.id}>
+                  <Link key={product.id} to={"/detail/" + product.id}>
+                    <Card key={product.id}>
+                      <CardImg
+                        src={product.gallery[0]}
+                        inStock={String(product.inStock)}
+                      >
+                        {product.inStock ? null : <h1>Out of stock</h1>}
+                      </CardImg>
+                      {product.inStock ? (
+                        <AddToCart
+                          src={add2cart}
+                          onClick={this.addToCart.bind(this, {
+                            ...product,
+                            count: 1,
+                            originalPrice: product.prices.filter(
+                              (price) =>
+                                price.currency === this.props.ui.currency
+                            )[0].amount,
+                            price: product.prices.filter(
+                              (price) =>
+                                price.currency === this.props.ui.currency
+                            )[0].amount,
+                          })}
+                        />
+                      ) : null}
+
                       <Text hover margin="6px 0" size="18" weight="300">
                         {product.name}
                       </Text>
@@ -63,10 +66,10 @@ class ProductList extends Component {
                             (price) => price.currency === this.props.ui.currency
                           )[0].amount
                         }{" "}
-                        {this.props.ui.currency}
+                        {this.props.ui.currencySign}
                       </Text>
-                    </Link>
-                  </Card>
+                    </Card>
+                  </Link>
                 );
               })
           ) : (

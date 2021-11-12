@@ -15,7 +15,6 @@ import {
   Currency,
 } from "../components/common";
 import cart from "../assets/imgs/cart.svg";
-import dollar from "../assets/imgs/dollar.svg";
 import empty from "../assets/imgs/empty.svg";
 import ProductList from "./productList";
 import { connect } from "react-redux";
@@ -28,7 +27,9 @@ class Main extends Component {
   };
   handleCurrency = (currency) => {
     this.props.dispatch(uiActions.changeCurrency(currency));
+    this.props.dispatch(uiActions.toggleCurrency());
   };
+
   handleIncrement = (index) => {
     this.props.dispatch(uiActions.increment(index));
     this.props.dispatch(uiActions.total());
@@ -64,12 +65,13 @@ class Main extends Component {
             <img src={cart} alt="" />
           </NavSides>
           <NavSides>
-            <img
-              className="nav-icon"
+            <Text
+              hover
               onClick={() => this.props.dispatch(uiActions.toggleCurrency())}
-              src={dollar}
-              alt=""
-            />
+              className="currency-sign"
+            >
+              {this.props.ui.currencySign}
+            </Text>
             <img
               className="nav-icon"
               onClick={this.handleToggleCart}
@@ -104,7 +106,7 @@ class Main extends Component {
                                   price.currency === this.props.ui.currency
                               )[0].amount
                             }{" "}
-                            {this.props.ui.currency}
+                            {this.props.ui.currencySign}
                           </Text>
                         </div>
                         <div>
@@ -158,52 +160,74 @@ class Main extends Component {
                 </Link>
               </Flex>
             </Cart>
-            <Overlay onClick={this.handleToggleCart} />
+            <Overlay black onClick={this.handleToggleCart} />
           </>
         ) : null}
         {this.props.ui.currencyShown === true ? (
-          <Currency>
-            <Text
-              onClick={this.handleCurrency.bind(this, "USD")}
-              hover
-              margin="10px 0"
-              weight="400"
-            >
-              $ USD
-            </Text>
-            <Text
-              onClick={this.handleCurrency.bind(this, "RUB")}
-              hover
-              margin="10px 0"
-              weight="400"
-            >
-              ₽ RUB
-            </Text>
-            <Text
-              onClick={this.handleCurrency.bind(this, "GBP")}
-              hover
-              margin="10px 0"
-              weight="400"
-            >
-              £ GBP
-            </Text>
-            <Text
-              onClick={this.handleCurrency.bind(this, "AUD")}
-              hover
-              margin="10px 0"
-              weight="400"
-            >
-              $ AUD
-            </Text>
-            <Text
-              onClick={this.handleCurrency.bind(this, "JPY")}
-              hover
-              margin="10px 0"
-              weight="400"
-            >
-              ¥ JPY
-            </Text>
-          </Currency>
+          <>
+            <Currency>
+              <Text
+                onClick={this.handleCurrency.bind(this, {
+                  currency: "USD",
+                  currencySign: "$",
+                })}
+                hover
+                margin="10px 0"
+                weight="400"
+              >
+                $ USD
+              </Text>
+              <Text
+                onClick={this.handleCurrency.bind(this, {
+                  currency: "RUB",
+                  currencySign: "₽",
+                })}
+                hover
+                margin="10px 0"
+                weight="400"
+              >
+                ₽ RUB
+              </Text>
+              <Text
+                onClick={this.handleCurrency.bind(this, {
+                  currency: "GBP",
+                  currencySign: "£",
+                })}
+                hover
+                margin="10px 0"
+                weight="400"
+              >
+                £ GBP
+              </Text>
+              <Text
+                onClick={this.handleCurrency.bind(this, {
+                  currency: "AUD",
+                  currencySign: "$",
+                })}
+                hover
+                margin="10px 0"
+                weight="400"
+              >
+                $ AUD
+              </Text>
+              <Text
+                onClick={this.handleCurrency.bind(this, {
+                  currency: "JPY",
+                  currencySign: "¥",
+                })}
+                hover
+                margin="10px 0"
+                weight="400"
+              >
+                ¥ JPY
+              </Text>
+            </Currency>
+            <Overlay
+              onClick={() => {
+                this.props.dispatch(uiActions.toggleCurrency());
+              }}
+            />
+          </>
         ) : null}
         <Switch>
           <Route exact path="/products/:category" component={ProductList} />
